@@ -13,7 +13,7 @@ var ListManager = React.createClass({
     var dummy = [];
     dummy.push(this.state.newItemText);
     dummy.push(this.state.newItemCount);
-
+    
     currentItems.push(dummy);
 
     this.setState({items: currentItems, newItemText: '', newItemCount: 1});

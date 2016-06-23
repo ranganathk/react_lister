@@ -7,8 +7,23 @@
 <body>
   
   <div id="pomodoro"></div>
-
-
   <script src="js/main.js"></script>
+  <!-- React JS -->
+  <script src="https://fb.me/react-0.13.3.js"></script>
+  <script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
+
+  <!-- Firebase -->
+  <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+  <script>
+   // Initialize Firebase
+   var config = {
+     apiKey: "AIzaSyDHYaAlas45xJPAE0wJX1X6YrzATwW4D6c",
+     authDomain: "pomodoro-786b5.firebaseapp.com",
+     databaseURL: "https://pomodoro-786b5.firebaseio.com",
+     storageBucket: "",
+   };
+   firebase.initializeApp(config);
+  </script>
 </body>
 </html>
