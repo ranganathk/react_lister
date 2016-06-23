@@ -19694,20 +19694,18 @@ process.umask = function() { return 0; };
 var React = require('react');
 var ListItem = require('./ListItem.jsx');
 
-var ingredients = [{ "id": 1, "name": "Ranga" }, { "id": 2, "name": "Rakesh" }, { "id": 3, "name": "Vineet" }];
-
 var List = React.createClass({
   displayName: 'List',
 
   render: function () {
-    var ListItems = ingredients.map(function (item) {
-      return React.createElement(ListItem, { key: item.id, ingredient: item.name });
-    });
+    var createItem = function (text, index, count) {
+      return React.createElement(ListItem, { key: index + text[0], text: text[0], count: text[1] });
+    };
 
     return React.createElement(
       'ul',
       null,
-      ListItems
+      this.props.items.map(createItem)
     );
   }
 });
@@ -19726,7 +19724,9 @@ var ListItem = React.createClass({
       React.createElement(
         'h4',
         null,
-        this.props.ingredient
+        this.props.text,
+        ', count: ',
+        this.props.count
       )
     );
   }
@@ -19736,9 +19736,65 @@ module.exports = ListItem;
 
 },{"react":166}],170:[function(require,module,exports){
 var React = require('react');
+var List = require('./List.jsx');
+
+var ListManager = React.createClass({
+  displayName: 'ListManager',
+
+  getInitialState: function () {
+    return { items: [], newItemText: '', newItemCount: 1 };
+  },
+  handleSubmit: function (ev) {
+    ev.preventDefault();
+
+    var currentItems = this.state.items;
+
+    var dummy = [];
+    dummy.push(this.state.newItemText);
+    dummy.push(this.state.newItemCount);
+
+    currentItems.push(dummy);
+
+    this.setState({ items: currentItems, newItemText: '', newItemCount: 1 });
+  },
+  onChangeText: function (ev) {
+    this.setState({ newItemText: ev.target.value });
+  },
+  onChangeCount: function (ev) {
+    this.setState({ newItemCount: ev.target.value });
+  },
+  render: function () {
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(
+        'h3',
+        null,
+        this.props.title
+      ),
+      React.createElement(
+        'form',
+        { onSubmit: this.handleSubmit },
+        React.createElement('input', { onChange: this.onChangeText, value: this.state.newItemText }),
+        React.createElement('input', { onChange: this.onChangeCount, value: this.state.newItemCount }),
+        React.createElement(
+          'button',
+          null,
+          'Add'
+        )
+      ),
+      React.createElement(List, { items: this.state.items })
+    );
+  }
+});
+
+module.exports = ListManager;
+
+},{"./List.jsx":168,"react":166}],171:[function(require,module,exports){
+var React = require('react');
 var ReactDOM = require('react-dom');
-var List = require('./components/List.jsx');
+var ListManager = require('./components/ListManager.jsx');
 
-ReactDOM.render(React.createElement(List, null), document.getElementById('ingredients'));
+ReactDOM.render(React.createElement(ListManager, { title: 'Pomodoro' }), document.getElementById('pomodoro'));
 
-},{"./components/List.jsx":168,"react":166,"react-dom":1}]},{},[170]);
+},{"./components/ListManager.jsx":170,"react":166,"react-dom":1}]},{},[171]);
